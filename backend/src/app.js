@@ -1,4 +1,7 @@
 import express from "express";
+import dotenv from "dotenv";
+
+dotenv.config();
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import mongoose from "mongoose";
@@ -18,7 +21,7 @@ app.use(express.urlencoded({ limit:"40kb", extended: true}));
 app.use("/api/v1/users", userRoutes);
 
 const start = async () => {
-    const connectionDB = await mongoose.connect("mongodb+srv://dharmpalpandit818_db_user:Dharmpal818@cluster0.smo86yl.mongodb.net/?appName=Cluster0")
+    const connectionDB = await mongoose.connect(process.env.MONGO_URI);
     console.log(`MONGO Connected DB Host: ${connectionDB.connection.host}`)
     server.listen(app.get("port"), () => {
         console.log("Listen on port 8000")
